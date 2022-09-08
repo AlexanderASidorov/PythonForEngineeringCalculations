@@ -48,7 +48,8 @@ for i in range(Length):
 fig01=plt.figure(1,figsize=(5,5))
 # Определяем названия осей
 plt.xlabel('Деформация')
-plt.ylabel('Напряжением, МПа')
+plt.ylabel('Напряжение, МПа')
 # Определяем списки из которых брать значение для кривых:
-plt(EngineeringStrain, EngineeringStress)
+plt.plot(EngineeringStrain, EngineeringStress)
+plt.plot(TrueStrain, TrueStress)
     # plt.semilogx(Pearlite.Phase001,Pearlite.Temperature, label='Pearlite 1%')
