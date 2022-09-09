@@ -50,6 +50,6 @@ fig01=plt.figure(1,figsize=(5,5))
 plt.xlabel('Деформация')
 plt.ylabel('Напряжение, МПа')
 # Определяем списки из которых брать значение для кривых:
-plt.plot(EngineeringStrain, EngineeringStress)
-plt.plot(TrueStrain, TrueStress)
+plt.plot(EngineeringStrain, EngineeringStress, marker='o')
+plt.plot(TrueStrain, TrueStress, marker='*')
     # plt.semilogx(Pearlite.Phase001,Pearlite.Temperature, label='Pearlite 1%')
