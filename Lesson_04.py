@@ -62,13 +62,13 @@ def Sigma(Sigma02, SigmaB, Ag, Epsilon):
     K=(TrueSigmaB-TrueSigma02)/TrueAg
     return TrueSigma02+K*Epsilon
 # Проверим как работает функция на примере стали 45:
-# согласно ГОСТ 1577-93 посола имеет следующие мех. характеристики:
+# согласно ГОСТ 1577-93 полоса имеет следующие мех. характеристики:
 Sigma02_45=355
 SigmaB_45=600
 Ag_45=0.16 
 # обратите внимание, что обычно в литературе равномерное удлинение
-# приводят в процентах, наша же функция работает с долей от 1 для этой переменной
-# источник здесь: (http://splav-kharkov.com/mat_start.php?name_id=87)
+# приводят в процентах, наша же функция работает с долей от 1 для этой переменной.
+# Источник здесь: (http://splav-kharkov.com/mat_start.php?name_id=87)
 #
 #
 # При истинной деформации 0.1 напряжение течения будет:
@@ -81,8 +81,8 @@ TrurSigma05 = Sigma(Sigma02_45, SigmaB_45, Ag_45, 0.5)
 # который потом перенести, при необходимости, в DEFORM или подобную программу
 # для моделирвоания процессов пластического деформирования
 # Стоим для этого список со значением пластической деформации:
-PlasticStrain=list(range(0,21))
-PlasticStress=list(range(0,21))
+PlasticStrain=list(range(0,11))
+PlasticStress=list(range(0,11))
 for i in PlasticStrain:
     PlasticStrain[i]=PlasticStrain[i]*0.05
     PlasticStress[i]= Sigma(Sigma02_45, SigmaB_45, Ag_45, PlasticStrain[i])
