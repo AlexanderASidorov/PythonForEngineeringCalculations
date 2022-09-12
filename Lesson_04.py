@@ -6,7 +6,7 @@ Created on Fri Sep  9 11:59:20 2022
 """
 
 # 1. ФУНКЦИИ в Python
-# 2. ПОСТРОЕНИЕ ГРАФИКОВ 
+# 
 #
 #
 #%% Начнем с того, что импортируем необходимую нам библиотеку Math
@@ -63,6 +63,7 @@ def Sigma(Sigma02, SigmaB, Ag, Epsilon):
     # Определим коэффициент при деформации K, подставим в исходное уравнение
     # TrueAg, TrueSigmaB и TrueSigma02 (равное Sigma02)
     K=(TrueSigmaB-TrueSigma02)/TrueAg
+    print (K)
     return TrueSigma02+K*Epsilon
 # Проверим как работает функция на примере стали 45:
 # согласно ГОСТ 1577-93 полоса имеет следующие мех. характеристики:
@@ -80,7 +81,7 @@ TrurSigma01 = Sigma(Sigma02_45, SigmaB_45, Ag_45, 0.1)
 TrurSigma05 = Sigma(Sigma02_45, SigmaB_45, Ag_45, 0.5)
 #
 #
-# Можем построить с помощью получившейся функции массим данных напряжение - деформация,
+# Можем построить с помощью получившейся функции массив данных напряжение - деформация,
 # который потом перенести, при необходимости, в DEFORM или подобную программу
 # для моделирвоания процессов пластического деформирования
 # Стоим для этого список со значением пластической деформации:
@@ -89,8 +90,12 @@ PlasticStress=list(range(0,11))
 for i in PlasticStrain:
     PlasticStrain[i]=PlasticStrain[i]*0.05
     PlasticStress[i]= Sigma(Sigma02_45, SigmaB_45, Ag_45, PlasticStrain[i])
-
-
+#
+#
+# То же самое, можно сделать немного по-другому:
+PlasticStrainAlternative=[x*0.05 for x in range(11)]
+PlasticStressAlternative=[Sigma(Sigma02_45, SigmaB_45, Ag_45, Strain) 
+                          for Strain in PlasticStrainAlternative]
 
 
 
