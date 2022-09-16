@@ -77,9 +77,31 @@ delta=0.5
 EighthNumPyArray=np.arange(m,n,delta)
 # Можно наоборот от n до m с отрицательным шагом delta
 NinethNumPyArray=np.arange(n, m, -delta)
-
-
-
+# а можно расстояние от m до n разбить на нужное количество отрезков:
+TenthNumPyArran=np.linspace(m, n, 100)
+# Возвращаясь к исходной задаче, где нам необходимо было увеличить все значения
+# из списка PlasticStress на 10%, с помощью библиотеки NumPy это можно сделать
+# следующим образом:
+# Конвертируем список PlasticStress в массив NumPy
+PlasticStressNumPyArray=np.array(PlasticStress)
+# И теперь мы можем просто умножить получившийся массив на 1.1 и все его элементы
+# в результате увеличатся на 10%
+PlasticStressNumPyArray=PlasticStressNumPyArray*1.1
+# По такому же принципу мы можем осуществлять действия над элементами двух
+# масссивов, например почленно сложить значения:
+SummPlasticStressNumPyArray=PlasticStressNumPyArray+np.array(PlasticStress)
+# Можем, например, извлечь квадратный корень из каждого элемента
+SqrtSummPlasticStressNumPyArray=np.sqrt(SummPlasticStressNumPyArray) 
+# Изложенный выше подход называют ВЕКТОРИЗАЦИЕЙ.
+#
+#
+# Индексация в массивах NumPy происходит аналогично индексации в списках:
+MaximumStress=FifthNumPyArray[10,1]
+# При необходимости мы можем поменять тот или иной член массива:
+FifthNumPyArray[10,1]=FifthNumPyArray[10,1]*1.1
+# а если нужно, например, обнулить массив, то необходимо указать все элементы 
+# массива
+FifthNumPyArray[:]=0
 
 
 
