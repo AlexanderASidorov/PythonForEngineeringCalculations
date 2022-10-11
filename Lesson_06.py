@@ -53,6 +53,8 @@ import numpy as np # здесь np - общепринятое сокращени
 FirsNumPyArray = np.array([1, 2, 13, 3]) # массив целочисленных значений
 SecondNumPyArray = np.array([1, 2, 12, 3.14]) # массив значений типа float
 ThirdNumPyArray = np.array([[1, 3.14, 3], [4, 5, 4]]) # двумерный массив
+# ThirdNumPyArray___ = np.array([[1, 3.14, 3], [4, 5, 4], [4,3.5, 4]]) # трехмерный 
+# # массив
 # Можно преобразовать имеющиеся списки в массивы NumPy:
 FourthNumPyArray=np.array([PlasticStress, PlasticStress10])
 # Если нам нужен массив не 2 на 11, а 11 на 2, то его можно транспанировать:
@@ -71,7 +73,7 @@ SixthNumPyArray = np.zeros([11, 2])
 # Аналогично можно построить массив, состоящий из единиц:
 SeventhNumPyArray=np.ones([2, 11])
 # Иногла нужно бывает создать массив, например от n до m с шагом delta:
-m=3
+m=2.5
 n=12
 delta=0.5
 EighthNumPyArray=np.arange(m,n,delta)
