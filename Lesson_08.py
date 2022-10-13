@@ -7,6 +7,7 @@ Created on Wed Oct 12 14:31:33 2022
 ## Импортируем нужные библиотеки
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 ## Считываем данные из Excel файла
 FlowStressData=pd.read_excel('1035_rough_data.xlsx', header=None, 
                              sheet_name='0.35')
@@ -120,4 +121,43 @@ Axis_1=Temperature.shape[0] # количество точек по темпер�
 Axis_2=Strain.shape[0] # количество точек по дефорации
 Axis_3= StrainRate.shape[0] # количество точек по скорости деформации
 FlowStress=FlowStress.reshape(Axis_1,Axis_2,Axis_3)
-del Axis_1, Axis_2, Axis_3               
+del Axis_1, Axis_2, Axis_3  
+#%%
+# Строим график в 3D
+FlowStressSurf=plt.axes(projection='3d')
+X, Y = np.meshgrid(StrainRate, Strain)
+Z = FlowStress[0,:,:]
+FlowStressSurf.plot_surface(X, Y, Z) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             
