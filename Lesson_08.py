@@ -11,49 +11,51 @@ import numpy as np
 FlowStressData=pd.read_excel('1035_rough_data.xlsx', header=None, 
                              sheet_name='0.35')
 # ## Определяем размер получившегося массива данных
-ShapeDataFrame=FlowStressData.shape
+ShapeDataFrame=np.array(FlowStressData.shape, dtype=int)
 ## Копируем этот массив, что бы иметь его в первоначальном виде
 CopyFlowStressData=FlowStressData
 #%% Ищем значения температуры, скорости деформации и деформации в получившемся
 # массиве. Для этого создаем функцию SearchingFor
+
+
 def SearchingFor(word, dataframe):
     # word='Strain rate'
     # dataframe=FlowStressData
     # Определяем размер массива
-    ShapeDataFrame=FlowStressData.shape
+    ShapeDataFrame = FlowStressData.shape
     # Переменнная TrueFals будет показывать есть ли в данной ячейки нужный нам
     # текст. Размерность этой переменной равна размерности массива
-    TrueFalse=np.ones([ShapeDataFrame[0], ShapeDataFrame[1]])
+    TrueFalse = np.ones([ShapeDataFrame[0], ShapeDataFrame[1]])
     # сначала мы создали единичный массив NumPy
     # после чего конвертируем его в Pandas
-    TrueFalse=pd.DataFrame(TrueFalse) # можно это и более коротко сделать
+    TrueFalse = pd.DataFrame(TrueFalse)  # можно это и более коротко сделать
     # (см. далее, как мы этом сделаем для переменной Viriable)
     # Далее запускаем цикл, в ходе которого проверяем есть ли в
     # данном столбце слово, которое мы ищем
     for i in range(0, ShapeDataFrame[1]):
-        TrueFalse[i]=FlowStressData[i].str.contains(word)
+        TrueFalse[i] = FlowStressData[i].str.contains(word)
     # Создаем массив Variable, куда будем записывать интересующую
     # нас переменную
     del i
-    Variable=list()
+    Variable = list()
     for i in range(0, ShapeDataFrame[0]):
         for j in range(0, ShapeDataFrame[1]):
-            if TrueFalse.iloc[i,j]==True:
-                Temp= dataframe.iloc[i,j]
+            if TrueFalse.iloc[i, j] == True:
+                Temp = dataframe.iloc[i, j]
                 #Temp=float(dataframe.iloc[i,j].split(':')[1])
                 Variable.append(Temp)
     del i, j, Temp
-    Variable=pd.Series(Variable) # конвертируем список в Pandas Series 
+    Variable = pd.Series(Variable)  # конвертируем список в Pandas Series
     # (одномерный) массив. После чего удаляем из него все "не цифры"
-    Variable=Variable.str.replace(r"[a-zA-Z:'()]",'',regex=True)
+    Variable = Variable.str.replace(r"[a-zA-Z:'()]", '', regex=True)
     # Далее удаляем все повторяющиеся значения:
-    Variable=Variable.drop_duplicates()
+    Variable = Variable.drop_duplicates()
     # Конвертируем значения во float32
-    Variable=Variable.astype('float32') 
+    Variable = Variable.astype('float32')
     # И конвертируем переменную в NumPy array
-    Variable=np.array([Variable]).transpose()
+    Variable = np.array([Variable]).transpose()
     return Variable
-StrainRate=SearchingFor('Strain rate', FlowStressData)
+StrainRate = SearchingFor('Strain rate', FlowStressData)
 Temperature=SearchingFor('temperature', FlowStressData)
 #%%
 ## C деформацией (Strain) получается сложнее, т.к. в нашем исходном файле она
@@ -111,7 +113,7 @@ ShapeDataFrame=FlowStressData.shape # на всякий случай опред�
 del Index, DataType
 #%%
 # Конвертируем массив pandas в массив NumPy
-FlowStress=np.array(FlowStressData)
+FlowStress=np.array(FlowStressData.astype('float32'))
 # Далее переформатируем получившийся массив NumPy из двумерного в трехмерный
 # Для этого определим количество ячеек по каждой из трех осей:
 Axis_1=Temperature.shape[0] # количество точек по температуре
