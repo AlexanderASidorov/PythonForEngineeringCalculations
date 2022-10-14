@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 ## Считываем данные из Excel файла
 FlowStressData=pd.read_excel('1035_rough_data.xlsx', header=None, 
-                             sheet_name='0.35')
+                             sheet_name='0.15')
 # ## Определяем размер получившегося массива данных
 ShapeDataFrame=np.array(FlowStressData.shape, dtype=int)
 ## Копируем этот массив, что бы иметь его в первоначальном виде
@@ -62,8 +62,8 @@ Temperature=SearchingFor('temperature', FlowStressData)
 ## C деформацией (Strain) получается сложнее, т.к. в нашем исходном файле она
 # прописана в нулевом столбце. В нулевом столбце данные могут быть трех типов:
 # string, float и int. Нам нужно избавиться от тех строк, которые имеют тип
-# string, т.к. это явно не деформация 
-# Для этого состдадим переменную Index, в которой будем хранить данные о том,
+# string, т.к. это явно не показатели деформации 
+# Для этого создадим переменную Index, в которой будем хранить данные о том,
 # в каких строках нашего массива FlowStressData не содержится численных значений
 Index=list()
 # Что бы эти индексы определить нам нужна переменая, которая покажет нам какой 
@@ -126,9 +126,11 @@ del Axis_1, Axis_2, Axis_3
 # Строим график в 3D
 FlowStressSurf=plt.axes(projection='3d')
 X, Y = np.meshgrid(StrainRate, Strain)
-Z = FlowStress[0,:,:]
-FlowStressSurf.plot_surface(X, Y, Z) 
-
+Z = FlowStress[5,:,:]
+FlowStressSurf.plot_surface(X, Y, Z, cmap = 'plasma')
+FlowStressSurf.set_xlabel('Скорость деформации')
+FlowStressSurf.set_ylabel('Деформация')
+FlowStressSurf.set_zlabel('Напряжение')
 
 
 
