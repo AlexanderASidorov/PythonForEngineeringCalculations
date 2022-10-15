@@ -23,24 +23,24 @@ def SearchingFor(word, dataframe):
     # word='Strain rate'
     # dataframe=FlowStressData
     # Определяем размер массива
-    ShapeDataFrame = FlowStressData.shape
+    ShapeFrame = dataframe.shape
     # Переменнная TrueFals будет показывать есть ли в данной ячейки нужный нам
     # текст. Размерность этой переменной равна размерности массива
-    TrueFalse = np.ones([ShapeDataFrame[0], ShapeDataFrame[1]])
+    TrueFalse = np.ones([ShapeFrame[0], ShapeFrame[1]])
     # сначала мы создали единичный массив NumPy
     # после чего конвертируем его в Pandas
     TrueFalse = pd.DataFrame(TrueFalse)  # можно это и более коротко сделать
     # (см. далее, как мы этом сделаем для переменной Viriable)
     # Далее запускаем цикл, в ходе которого проверяем есть ли в
     # данном столбце слово, которое мы ищем
-    for i in range(0, ShapeDataFrame[1]):
+    for i in range(0, ShapeFrame[1]):
         TrueFalse[i] = FlowStressData[i].str.contains(word)
     # Создаем массив Variable, куда будем записывать интересующую
     # нас переменную
     del i
     Variable = list()
-    for i in range(0, ShapeDataFrame[0]):
-        for j in range(0, ShapeDataFrame[1]):
+    for i in range(0, ShapeFrame[0]):
+        for j in range(0, ShapeFrame[1]):
             if TrueFalse.iloc[i, j] == True:
                 Temp = dataframe.iloc[i, j]
                 #Temp=float(dataframe.iloc[i,j].split(':')[1])
