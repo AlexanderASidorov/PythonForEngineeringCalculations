@@ -63,6 +63,7 @@ FlowStressData['TrueStrain']=np.log(1+FlowStressData['EngineeringStrain'])
 FlowStressData['TrueStress']=FlowStressData['EngineeringStress']*(1+FlowStressData['EngineeringStrain'])
 # 
 #
+fig01=pl.figure(1)
 pl.plot(FlowStressData['EngineeringStrain'], FlowStressData['EngineeringStress'], '-*k')
 pl.plot(FlowStressData['TrueStrain'], FlowStressData['TrueStress'], '-or')
 #
@@ -99,14 +100,33 @@ while Delta <= 0.002:
 # Найдем индекс массива TrueStressStrain, где напряжение максимально (т.е. найдем
 # момент начала образования шейки)
 j=TrueStressStrain[:,1].argmax()
+# Удаляем все данные до предела текучести и после начала образования шейки
 PlasticStrain=TrueStressStrain[(i-1):j, 0]
 PlasticStress=TrueStressStrain[(i-1):j, 1]
+# Построим график пластическая деформация - напряжение
+fig02=pl.figure(2)
 pl.plot(PlasticStrain, PlasticStress, 'r')
-      
-    
-
-
-
+# Добавим названия осей:
+pl.xlabel('Пластическая деформация')
+pl.ylabel('Напряжение, МПа')
+#%% Попробуем апроксимировать эти данные
+# Для этого нам понадобится библиотека SciPy
+from scipy.optimize import curve_fit
+# и определим уравнение, которым мы будем апроксимировать, с помощью функции
+def FlowCurve (XData,K, n):
+    return Sigma02+K*XData**n
+XData=PlasticStrain
+YData=PlasticStress
+initialGuess = [400,2]
+popt, pcov = curve_fit(FlowCurve, XData, YData, initialGuess)
+K=popt[0]
+n=popt[1]
+fig03=pl.figure(3)
+pl.plot(PlasticStrain, PlasticStress, 'r')
+pl.plot(PlasticStrain, FlowCurve(PlasticStrain, K, n), 'b')
+# Добавим названия осей:
+pl.xlabel('Пластическая деформация')
+pl.ylabel('Напряжение, МПа')
 
 
 
