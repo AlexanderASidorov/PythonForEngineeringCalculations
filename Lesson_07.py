@@ -102,6 +102,7 @@ while Delta <= 0.002:
 j=TrueStressStrain[:,1].argmax()
 # Удаляем все данные до предела текучести и после начала образования шейки
 PlasticStrain=TrueStressStrain[(i-1):j, 0]
+PlasticStrain=PlasticStrain-PlasticStrain[0]
 PlasticStress=TrueStressStrain[(i-1):j, 1]
 # Построим график пластическая деформация - напряжение
 fig02=pl.figure(2)
@@ -117,7 +118,7 @@ def FlowCurve (XData,K, n):
     return Sigma02+K*XData**n
 XData=PlasticStrain
 YData=PlasticStress
-initialGuess = [400,2]
+initialGuess = [0,0]
 popt, pcov = curve_fit(FlowCurve, XData, YData, initialGuess)
 K=popt[0]
 n=popt[1]
