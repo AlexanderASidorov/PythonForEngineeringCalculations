@@ -14,7 +14,7 @@ Created on Mon Oct 17 14:03:43 2022
 ## Для начала импортируем нужные библиотеки
 import pandas as pd # библиотека Pandas
 import numpy as np # библиотека NumPy (см. урок 06)
-import matplotlib.pyplot as pl # библиотека 
+import matplotlib.pyplot as pl # библиотека Matplotlib (см. урок 05)
 ## Считываем данные из Excel файла
 # Считываем первый лист
 FirstSheet=pd.read_excel('Lesson07.xlsx', header=None, 
@@ -118,7 +118,7 @@ def FlowCurve (XData,K, n):
     return Sigma02+K*XData**n
 XData=PlasticStrain
 YData=PlasticStress
-initialGuess = [0,0]
+initialGuess = [0,2]
 popt, pcov = curve_fit(FlowCurve, XData, YData, initialGuess)
 K=popt[0]
 n=popt[1]
@@ -128,9 +128,34 @@ pl.plot(PlasticStrain, FlowCurve(PlasticStrain, K, n), 'b')
 # Добавим названия осей:
 pl.xlabel('Пластическая деформация')
 pl.ylabel('Напряжение, МПа')
-
-
-
+#%% Т.к. результат апроксимации далек от идеального, попробуем апроксимировать
+# эти же данные простым полиномом третьего порядка
+def Polynom (x, a, b, c, d):
+    return a*x**3+b*x**2+c*x+d
+initialGuess = [1,1,1,1]
+popt, pcov = curve_fit(Polynom, XData, YData, initialGuess)
+constants=popt
+fig04=pl.figure(4)
+pl.plot(PlasticStrain, PlasticStress, 'r')
+pl.plot(PlasticStrain, Polynom(PlasticStrain, constants[0], constants[1], 
+                               constants[2], constants[3]), 'b')
+# # # Добавим названия осей:
+pl.xlabel('Пластическая деформация')
+pl.ylabel('Напряжение, МПа')
+#%% Если хотим получить совсем идеальный результат, то можем попробовать 
+# увеличить размерность полинома
+def Polynom (x, a, b, c, d, e):
+    return a*x**4+b*x**3+c*x**2+d*x+e
+initialGuess = [1,1,1,1, 1]
+popt, pcov = curve_fit(Polynom, XData, YData, initialGuess)
+constants=popt
+fig05=pl.figure(5)
+pl.plot(PlasticStrain, PlasticStress, 'r')
+pl.plot(PlasticStrain, Polynom(PlasticStrain, constants[0], constants[1], 
+                               constants[2], constants[3], constants[4]), 'b')
+# # # Добавим названия осей:
+pl.xlabel('Пластическая деформация')
+pl.ylabel('Напряжение, МПа')
 
 
 
