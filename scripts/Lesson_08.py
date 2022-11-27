@@ -17,7 +17,7 @@ os.chdir('../scripts') # возвращаемся впапку scripts
 # ## Определяем размер получившегося массива данных
 ShapeDataFrame=np.array(FlowStressData.shape, dtype=int)
 ## Копируем этот массив, что бы иметь его в первоначальном виде
-CopyFlowStressData=FlowStressData
+CopyFlowStressData=FlowStressData.copy()
 #%% Ищем значения температуры, скорости деформации и деформации в получившемся
 # массиве. Для этого создаем функцию SearchingFor
 
@@ -27,7 +27,7 @@ def SearchingFor(word, dataframe):
     # dataframe=FlowStressData
     # Определяем размер массива
     ShapeFrame = dataframe.shape
-    # Переменнная TrueFals будет показывать есть ли в данной ячейки нужный нам
+    # Переменнная TrueFals будет показывать есть ли в данной ячейке нужный нам
     # текст. Размерность этой переменной равна размерности массива
     TrueFalse = np.ones([ShapeFrame[0], ShapeFrame[1]])
     # сначала мы создали единичный массив NumPy
