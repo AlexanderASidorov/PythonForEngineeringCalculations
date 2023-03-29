@@ -30,7 +30,7 @@ pl.plot(PlasticStrain, PlasticStress)
 #
 # Задав некоторые дополнительные атрибуты, мы можем немного улучшить вид нашего
 # графика. В частности, мы можем задать тип линии, тип маркера и цвет линии.
-pl.plot(PlasticStrain, PlasticStress, '--or')
+pl.plot(PlasticStrain, PlasticStress, '--xy')
 # Мы можем нанести несколько кривых на один граки, а можем построить отдельные
 # графика для каждой кривй. Давайте создадим еще один список с напряжениями, но
 # пусть эти напряжения будут нелинейно зависеть от деформации
@@ -45,9 +45,12 @@ K=2297.533945833402
 Sigma02=PlasticStress[0]
 # Показателем n просто зададимся: 
 n=0.75
-# После чего расчитываем список PlasticStressNonLinear 
+# После чего расчитываем список PlasticStressNonLinear
+#%% 
 for i in range (0,len(PlasticStrain)):
     PlasticStressNonLinear[i]=Sigma02+K*PlasticStrain[i]**n
+#%%
+fig01=pl.figure(1)
 # И строим его график:
 pl.plot(PlasticStrain, PlasticStressNonLinear, '-*k')
 #
@@ -61,12 +64,12 @@ pl.ylim(350,1800)
 #
 # Можно добавить название графика
 pl.title('Кривая деформационного упрочнения стали 45')
-#
+#%%
 #
 # Если для каждого из набора данных нужно построить свой собственный график, то
 # можно для каждого из них создать свою собственную переменную, где этот график 
 # будет хранится:
-fig01=pl.figure(2)
+fig02=pl.figure(2)
 pl.plot(PlasticStrain, PlasticStress, '--or')
 pl.xlabel('Деформация')
 pl.ylabel('Напряжение, МПа')
@@ -74,9 +77,7 @@ pl.xlim(0, 0.51)
 pl.ylim(350,1800)
 pl.title('Кривая деформационного упрочнения стали 45 \n'
          '(линейная зависимость)')
-#
-#
-fig02=pl.figure(3)
+# fig03=pl.figure(3)
 pl.plot(PlasticStrain, PlasticStressNonLinear, '-*k')
 pl.xlabel('Деформация')
 pl.ylabel('Напряжение, МПа')
