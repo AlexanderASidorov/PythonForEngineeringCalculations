@@ -15,10 +15,10 @@ from scipy import interpolate
 import matplotlib.pyplot as plt
 # Исходные данные
 E=200000 # модуль Юнга, Па
-R=[5, 5.1, 5.3, 5.6, 6.0, 6.3] # изменение радиуса колонны, мм
+R=[5, 6, 7, 8, 10, 12] # изменение радиуса колонны, мм
 L=1000 # длина колонны, мм
 Q=1000000 # нагрузка на стержень, Н
-n=5 # количество конечных элементов
+n=10 # количество конечных элементов
 m=2 # количество степеней свободы элемента
 #%% Определение закона изменения радиуса колонны по ее высоте. Предположим, что
 # значение радиусов распределено равномерно по длине. Тогда:
@@ -51,10 +51,10 @@ Topology[:,1]=np.linspace(1,NDoF, num=n)
 #%%
 for item in range(NDoF):
     i,j=Topology[item]
-    K[item,i]=(K[item,i]+1)*Stiffness[i]
-    K[item,j]=(K[item,j]-1)*Stiffness[i]
-    K[item+1,i]=(K[item+1,i]-1)*Stiffness[i]
-    K[item+1,j]=(K[item+1,j]+1)*Stiffness[i]
+    K[item,i]=(K[item,i]+1)+Stiffness[i]
+    K[item,j]=(K[item,j]-1)-Stiffness[i]
+    K[item+1,i]=(K[item+1,i]-1)-Stiffness[i]
+    K[item+1,j]=(K[item+1,j]+1)+Stiffness[i]
 #%% Собираем вектор внешних нагрузок
 R=np.zeros(len(DoF))
 R[0]=-Q
