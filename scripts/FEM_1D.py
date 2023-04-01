@@ -13,12 +13,13 @@ Created on Fri Mar 24 12:02:55 2023
 import numpy as np
 from scipy import interpolate
 import matplotlib.pyplot as plt
+#%%
 # Исходные данные
 E=200000 # модуль Юнга, Па
 R=[6, 6.1, 6.2, 6.3, 6.5, 7] # изменение радиуса колонны, мм
-L=1000 # длина колонны, мм
+L=2000 # длина колонны, мм
 Q=100000 # нагрузка на стержень, Н
-n=10 # количество конечных элементов
+n=15 # количество конечных элементов
 m=2 # количество степеней свободы элемента
 #%% Определение закона изменения радиуса колонны по ее высоте. Предположим, что
 # значение радиусов распределено равномерно по длине. Тогда:
@@ -41,7 +42,7 @@ NDoF=n # с учетом, что счет мы начинаем с 0!!!!
 DoF=np.linspace(0, NDoF, NDoF+1, dtype=int)
 #
 # Матрица жесткости одного эллемента:
-k=np.array([[+1, -1], [-1, +1]])
+# k=np.array([[+1, -1], [-1, +1]])
 # Матрица жесткости всей системы (размерность NDoF на NDoF):
 K=np.zeros([len(DoF), len(DoF)], dtype=float)    
 # Матрица топологии имеет размерность n на m
@@ -49,12 +50,12 @@ Topology=np.zeros([n, m], dtype=int)
 Topology[:,0]=np.linspace(0, NDoF-1, num=n)
 Topology[:,1]=np.linspace(1,NDoF, num=n)
 #%%
-for item in range(NDoF):
+for item in range(n):
     i,j=Topology[item]
-    K[item,i]=(K[item,i]+1)+Stiffness[i]
-    K[item,j]=(K[item,j]-1)-Stiffness[i]
-    K[item+1,i]=(K[item+1,i]-1)-Stiffness[i]
-    K[item+1,j]=(K[item+1,j]+1)+Stiffness[i]
+    K[item,i]=(K[item,i])+Stiffness[i]
+    K[item,j]=(K[item,j])-Stiffness[i]
+    K[item+1,i]=(K[item+1,i])-Stiffness[i]
+    K[item+1,j]=(K[item+1,j])+Stiffness[i]
 #%% Собираем вектор внешних нагрузок
 R=np.zeros(len(DoF))
 R[0]=-Q
