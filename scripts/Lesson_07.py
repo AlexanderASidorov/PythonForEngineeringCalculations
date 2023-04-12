@@ -15,7 +15,7 @@ First_Sheet = pd.read_excel ('Lesson07.xlsx', header=None, sheet_name='Results')
 # Считываем второй лист
 Second_Sheet = pd.read_excel('Lesson07.xlsx', header=None, sheet_name='Data')
 os.chdir('../scripts') # возвращаемся впапку scripts
-## Далее мы будем работать со сторым листом, где приведены эксперементальные
+## Далее мы будем работать со вторым листом, где приведены эксперементальные
 ## данные напряжение-деформация. Создадим отдельную переменную FlowStress_Data,
 ## с которой будем дальше работать, а переменную Second_Sheet оставим в качестве
 ## референсной
@@ -29,9 +29,11 @@ Description=FlowStress_Data.describe()
 ShapeFlowStress_Data=FlowStress_Data.shape
 # Нам необходимы данные из первых двух столбцов (Инженерная деформация - столбец 0
 # и инженерное напряжение - столбец 1)
+#%%
 for i in range (2, ShapeFlowStress_Data[1]):
     FlowStress_Data.drop([i], axis=1, inplace=True)
 del i
+#%%
 # Т.к. первые три строки нам так же не нужны, их мы удалим аналогичным образом
 FlowStress_Data.drop([0, 1, 2], axis=0, inplace=True)
 # ОБратите внимание, что удалив первые три строки мы сломали индексацию, теперь
@@ -53,9 +55,10 @@ FlowStress_Data['EngineeringStress']=FlowStress_DataNumPy[:,1]
 FlowStress_Data['EngineeringStrain']=FlowStress_Data['EngineeringStrain']/100
 # После чего добавить столбцы с расчетными значениями истинных напряжений и дефомраций
 FlowStress_Data['TrueStrain']=np.log(1+FlowStress_Data['EngineeringStrain'])
+#%%
 FlowStress_Data['TrueStress']=FlowStress_Data['EngineeringStress']*(1+
     FlowStress_Data['EngineeringStrain'])
-#
+#%%
 #
 Fig_01=pl.figure(1)
 pl.plot(FlowStress_Data['EngineeringStrain'], FlowStress_Data['EngineeringStress'], '-*k')
@@ -75,11 +78,13 @@ True_Stress_Strain=np.transpose(True_Stress_Strain)
 ElasticStrain = np.array([0.0, 0.0])
 ElasticStress =np.array ([0.0, 0.0])
 i=0
+#%%
 while ElasticStrain[1] < 0.001:
     ElasticStrain[1]=True_Stress_Strain[i,0]
     ElasticStress[1]=True_Stress_Strain[i,1]
     i=i+1
-del i
+# del i
+#%%
 # По закону Гука Sigma = E * Epsilon или E = Sigma/Epsilon, где E - модуль Юнга
 # отсюда Модуль Юнга
 E=ElasticStress[1]/ElasticStrain[1]
@@ -91,6 +96,7 @@ while Delta <= 0.002:
     Delta=True_Stress_Strain[i,0]-True_Stress_Strain[i,1]/E
     Sigma_02=True_Stress_Strain[i,1]
     i=i+1
+#%%
 # Найдем индекс массива True_Stress_Strain, где напряжение максимально (т.е. найдем
 # момент начала образования шейки)
 j=True_Stress_Strain[:,1].argmax()
@@ -98,6 +104,7 @@ j=True_Stress_Strain[:,1].argmax()
 Plastic_Strain=True_Stress_Strain[(i-1):j, 0]
 Plastic_Strain=Plastic_Strain-Plastic_Strain[0]
 Plastic_Stress=True_Stress_Strain[(i-1):j, 1]
+#%%
 # Построим график пластическая деформация - напряжение
 Fig_02=pl.figure(2)
 pl.plot(Plastic_Strain, Plastic_Stress, 'r')
