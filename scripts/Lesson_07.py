@@ -65,7 +65,7 @@ pl.plot(FlowStress_Data['EngineeringStrain'], FlowStress_Data['EngineeringStress
 pl.plot(FlowStress_Data['TrueStrain'], FlowStress_Data['TrueStress'], '-or')
 #
 # Добавим названия осей:
-pl.xlabel('Деформация')
+pl.xlabel('Деформация, мм/мм')
 pl.ylabel('Напряжение, МПа')
 #
 #%%
@@ -115,14 +115,17 @@ pl.ylabel('Напряжение, МПа')
 # Для этого нам понадобится библиотека SciPy
 from scipy.optimize import curve_fit
 # и определим уравнение, которым мы будем апроксимировать, с помощью функции
+#%%
 def flow_curve (X_Data,K, n):
     return Sigma_02+K*X_Data**n
+#%%
 X_Data=Plastic_Strain
 Y_Data=Plastic_Stress
-Initial_Guess = [0,2]
+Initial_Guess = [100, 0]
 popt, pcov = curve_fit(flow_curve, X_Data, Y_Data, Initial_Guess)
 K=popt[0]
 n=popt[1]
+#%%
 Fig_03=pl.figure(3)
 pl.plot(Plastic_Strain, Plastic_Stress, 'r')
 pl.plot(Plastic_Strain, flow_curve(Plastic_Strain, K, n), 'b')
