@@ -9,6 +9,7 @@ https://docs.anaconda.com/miniconda/
 
 Тесты для самопроверки:
 1. Лекция #1 и #2: https://forms.gle/LPLEXY6xbeVrWubQ6
+2. Лекция #3 и #4: https://forms.gle/wymnpqSHSADyY87S9
 
 
 
