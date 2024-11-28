@@ -11,5 +11,9 @@ https://docs.anaconda.com/miniconda/
 1. Лекция #1 и #2: https://forms.gle/LPLEXY6xbeVrWubQ6
 2. Лекция #3 и #4: https://forms.gle/wymnpqSHSADyY87S9
 
+ДОМАШНЕЕ ЗАДАНИЕ НА 02.12.2024 г.
+Написать функцию, которая будет в зависимости от необходиомсти расчитывать производную sin(x), cos(x),
+tg(x) или ctg(x)
+
 
 
