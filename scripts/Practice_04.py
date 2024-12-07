@@ -13,7 +13,7 @@ x=[]
 start_point = -2*math.pi
 
 # шаг с которым будем добавлять значений
-step = abs(2*start_point)/1000
+step = abs(2*start_point)/100
 
 item = start_point 
 while item <= abs(start_point) + step:
@@ -87,11 +87,13 @@ def sin (x):
     '''
     
     list_x, _ = check_data(x, 'sin')
+        
     
-    return [round(math.sin(item), 3) for item in list_x]
+    
+    return [round(math.sin(item), 3) for item in list_x], list_x
 
 
-sin_x = sin(x)
+
 
 def cos (x):
     '''
@@ -110,9 +112,8 @@ def cos (x):
     
     list_x, _ = check_data(x, 'cos')
     
-    return [round(math.cos(item), 3) for item in list_x]
+    return [round(math.cos(item), 3) for item in list_x], list_x
 
-cos_x = cos(x)
 
 
 
@@ -136,8 +137,8 @@ def tg_ctg (x, function_type = 'ctg'):
     list_x, _ = check_data(x, function_type)
     
     # Для последующего расчета необходимо посчитать cos и sin
-    sin_x = sin(list_x)
-    cos_x = cos(list_x)
+    sin_x, _ = sin(list_x)
+    cos_x, _ = cos(list_x)
     
     
     if function_type in ['tg', 'ctg']:
@@ -172,8 +173,14 @@ def tg_ctg (x, function_type = 'ctg'):
     # функции равное None, что позволит нам при построении графика функции иметь
     # разрывы
     values_near_zeros = []
+    i_start = 0 
+    i_end = len(denuminator)
     
-    for i in range (0, len(denuminator)):
+    
+    
+    
+    
+    for i in range (i_start, i_end):
         j = i+1
         try:
             denuminator[j]
@@ -186,14 +193,16 @@ def tg_ctg (x, function_type = 'ctg'):
             list_x[i] = None
                
         elif denuminator [i] is not None and denuminator [i] > 0 and denuminator [j] <0:
-            denuminator[i] = None
-            numinator [i] = None
-            list_x[i] = None
+            denuminator.insert(j, None)
+            numinator.insert(j, None)
+            list_x.insert(j, None)
+            i_end +=1
             
         elif denuminator [i] is not None and denuminator [i] < 0 and denuminator [j] > 0:
-             denuminator[i] = None
-             numinator [i] = None
-             list_x[i] = None
+             denuminator.insert(j, None)
+             numinator.insert(j, None)
+             list_x.insert(j, None)
+             i_end +=1
         else:
             pass
   
@@ -209,7 +218,7 @@ def tg_ctg (x, function_type = 'ctg'):
             except:
                 function.append(None)
             
-    return function
+    return function, list_x
 
 
 def derivative (x, function_type):
@@ -235,14 +244,14 @@ def derivative (x, function_type):
     
     match function_type:
         case 'sin':
-            derivative = cos(list_x) # т.к. dsin(x)/dx = cos(x) 
+            derivative = cos(list_x)[0] # т.к. dsin(x)/dx = cos(x) 
             
         case 'cos':
-            derivative = [item*(-1) for item in sin(list_x)] # т.к. dcos(x)/dx = -sin(x)
+            derivative = [item*(-1) for item in sin(list_x)[0]] # т.к. dcos(x)/dx = -sin(x)
         
         case 'tg':
             derivative = [] # dtg(x)/dx = (tg(x))**2 + 1
-            tg_x = tg_ctg(list_x, 'tg')
+            tg_x, list_x = tg_ctg(list_x, 'tg')
             
             for i in range (0, len(tg_x)):
                 if tg_x[i] is None:
@@ -252,14 +261,16 @@ def derivative (x, function_type):
                     
         case 'ctg':
              derivative = [] # dctg(x)/dx = -1 / (sin(x)**2)
-             ctg_x = tg_ctg(list_x, 'ctg')
-             sin_x = sin(list_x)
+             ctg_x, list_x  = tg_ctg(list_x, 'ctg')
              
-             for i in range (0, len(ctg_x)):
+             
+             for i in range (0, len(list_x)):
                  if ctg_x[i] is None:
                      derivative.append(None)
                  else:
-                     derivative.append(-1/(sin_x[i]**2))
+                     sin_x = sin(list_x[i])[0][0]
+                     
+                     derivative.append(-1/sin_x**2)
                      
     return derivative
 
@@ -310,10 +321,10 @@ def create_single_plot (x, y1, y2, x_lable = 'x', y1_lable = 'y1', y2_lable = 'y
 list_x, _ = check_data (x, 'sin')    
 
 # функции
-sin_x = sin (list_x)
-cos_x = cos (list_x)
-tg_x = tg_ctg (list_x, function_type= 'tg')
-ctg_x = tg_ctg (list_x, function_type= 'ctg')
+sin_x, _ = sin (list_x)
+cos_x, _ = cos (list_x)
+tg_x, list_x_tg = tg_ctg (list_x, function_type= 'tg')
+ctg_x, list_x_ctg = tg_ctg (list_x, function_type= 'ctg')
 
 
 # производные
@@ -360,8 +371,8 @@ ax0[0].grid()
 
 ##################################
 #### левый нижний угол ########## 
-ax1[0].plot(list_x, tg_x, color='black', linestyle = '-', label = 'tg(x)') 
-ax10.plot(list_x, derivative_tg_x, color='grey', linestyle = '--', label = 'dtg(x)/dx') 
+ax1[0].plot(list_x_tg, tg_x, color='black', linestyle = '-', label = 'tg(x)') 
+ax10.plot(list_x_tg, derivative_tg_x, color='grey', linestyle = '--', label = 'dtg(x)/dx') 
 
 ax1[0].tick_params(axis='y',  colors='black') 
 ax10.tick_params(axis='y', colors='black')
@@ -396,8 +407,8 @@ ax0[1].grid()
 
 ##################################
 #### правый нижний угол ########## 
-ax1[1].plot(list_x, ctg_x, color='black', linestyle = '-', label = 'ctg(x)') 
-ax11.plot(list_x, derivative_ctg_x, color='grey', linestyle = '--', label = 'dctg(x)/dx') 
+ax1[1].plot(list_x_ctg, ctg_x, color='black', linestyle = '-', label = 'ctg(x)') 
+ax11.plot(list_x_ctg, derivative_ctg_x, color='grey', linestyle = '--', label = 'dctg(x)/dx') 
 
 ax1[1].tick_params(axis='y',  colors='black') 
 ax11.tick_params(axis='y', colors='black')
@@ -409,6 +420,8 @@ ax1[1].legend(fontsize = 18, loc='upper left')
 ax11.legend(fontsize = 18, loc='upper right')
 # добавляем сетку
 ax1[1].grid()
+
+plt.show()
 
 
 
