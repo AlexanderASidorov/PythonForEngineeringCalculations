@@ -11,15 +11,3 @@ https://docs.anaconda.com/miniconda/
 1. Лекция #1 и #2: https://forms.gle/LPLEXY6xbeVrWubQ6
 2. Лекция #3 и #4: https://forms.gle/wymnpqSHSADyY87S9
 3. Лекция #5: https://forms.gle/4pmxeiwG3XTmMRUq9
-
-ДОМАШНЕЕ ЗАДАНИЕ НА 02.12.2024 г.
-
-Написать функцию, которая будет в зависимости от необходиомсти, расчитывать производную sin(x), cos(x),
-tg(x) или ctg(x)
-
-ДОМАШНЕЕ ЗАДАНИЕ НА 05.12.2024 г.
-
-Построить график распределения функций sin(x), cos(x), tg(x), ctg(x) и их производных (подробнее смотрите в note для лекции #6) 
-
-
-
