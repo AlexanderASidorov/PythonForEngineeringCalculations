@@ -3,6 +3,7 @@
 
 # Поиск Пифагоровых троек
 
+import time
 
 def get_abc (n, m):
     '''
@@ -12,8 +13,7 @@ def get_abc (n, m):
     ----------
     n : integer
     m : integer
-
-    
+   
     Returns
     -------
     a : integer
@@ -66,8 +66,8 @@ def get_n_max (c):
     if not isinstance(c, int) and not c>0:
         raise TypeError ('c должна быть переменной типа integer больше 0')
         
-    n = int((c/2)**0.5)
-    return n
+    n_max = int((c/2)**0.5)
+    return n_max
 
 
 
@@ -175,11 +175,7 @@ def check_a_b_c (a, b, c):
     b : integer.
     c : integer.
 
-    Raises
-    ------
-    TypeError
-        DESCRIPTION.
-
+   
     Returns
     -------
     status : True of False.
@@ -235,16 +231,65 @@ def get_triplet ():
             for i in range (0, len(list_n)):
                 a, b, c = get_abc(list_n[i], list_m[i])
                 status = check_a_b_c(a, b, c)
+                #status = False
                 if not status:
                     triplets.append([a, b, c])
                 else:
                     pass
             c-=1
-                
+ 
 
-c = 100
+               
+start_time = time.time()
+c = 100000
 triplets =[]
 a_b_c = get_triplet()
+end_time = time.time()
+print(end_time - start_time)
+
+
+#%%
+# вариант Магомедкади Алиева (он лучше)
+
+import math
+
+def simple(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+a = simple (10, 5)
+
+
+
+def Pifagorov_3(z):
+    troiki = []
+
+    # Используем формулу Евклида: a = m^2 - n^2, b = 2mn, c = m^2 + n^2
+    for m in range(2, int(math.sqrt(z)) + 1):
+        for n in range(1, m):
+
+            # m и n должны быть взаимно простыми и нечетно-чётной парой
+            if (m - n) % 2 == 1 and simple(m, n) == 1:
+                a = m**2 - n**2
+                b = 2 * m * n
+                c = m**2 + n**2
+
+                if c > z:
+                    break
+
+                troiki.append((a, b, c))
+
+    # Упорядочим a, b, c так, чтобы a < b < c
+    troiki = [tuple(sorted(triple)) for triple in troiki]
+
+    return sorted(troiki)
+
+troiki = Pifagorov_3(100000)
+#print(Pifagorov_3(100000))
+
+
+
 
 
 
