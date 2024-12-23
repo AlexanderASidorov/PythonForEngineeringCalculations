@@ -11,3 +11,8 @@ https://docs.anaconda.com/miniconda/
 1. Лекция #1 и #2: https://forms.gle/LPLEXY6xbeVrWubQ6
 2. Лекция #3 и #4: https://forms.gle/wymnpqSHSADyY87S9
 3. Лекция #5: https://forms.gle/4pmxeiwG3XTmMRUq9
+
+Домашнее задание на 26.12.2024 г.:
+
+1. Написать функцию для решения СЛАУ
+2. Написать функцию для определения коэффициента Пирсена. Исходные данные смотрите в конце файла Lection_09.py и в notes Лекции №9.
